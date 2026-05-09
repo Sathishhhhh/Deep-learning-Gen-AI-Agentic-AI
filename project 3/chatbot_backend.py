@@ -1,7 +1,8 @@
 # Chatbot backend for E-Commerce Chatbot
 # Uses LangChain with OpenAI and ChromaDB for product retrieval
 import logging
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
@@ -25,7 +26,7 @@ class EcommerceChatbot:
             temperature=OPENAI_TEMPERATURE
         )
         
-        self.embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
+        self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         self.db_manager = DatabaseManager()
         
         # Load ChromaDB vector store

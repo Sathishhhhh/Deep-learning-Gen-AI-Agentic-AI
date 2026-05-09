@@ -4,9 +4,9 @@ import pandas as pd
 import logging
 from pathlib import Path
 from database import DatabaseManager
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-from config import SAMPLE_DATA_PATH, CHROMA_PERSIST_DIR, CHROMA_COLLECTION_NAME, OPENAI_API_KEY
+from config import SAMPLE_DATA_PATH, CHROMA_PERSIST_DIR, CHROMA_COLLECTION_NAME
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,7 +17,8 @@ class ProductLoader:
     
     def __init__(self):
         self.db_manager = DatabaseManager()
-        self.embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
+        # Use local embeddings (free, no API quota issues)
+        self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         self.chroma_persist_dir = Path(CHROMA_PERSIST_DIR)
         self.chroma_persist_dir.mkdir(exist_ok=True)
     
